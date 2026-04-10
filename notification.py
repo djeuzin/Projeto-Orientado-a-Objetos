@@ -65,7 +65,7 @@ if __name__ == "__main__":
 	email = factory.new_notification("EMAIL")
 	email.send("algo")
 
-	extern_sms = ExternSMSNotificationAdapter()
+	extern_sms = factory.new_notification("EXTERNSMS")
 	extern_sms.send("Mensagem do adaptador")
 
 	sms = factory.new_notification("SMS")
