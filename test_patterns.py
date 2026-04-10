@@ -23,3 +23,7 @@ def test_factory():
 	a = factory.new_notification("SMS")
 	b = factory.new_notification("SMS")
 	assert a != b
+
+def test_adapter():
+	a = factory.new_notification("EXTERNSMS")
+	assert(type(a) == ExternSMSNotificationAdapter)
