@@ -1,12 +1,19 @@
 # Rafael Freire Machado Gonçalves
 # RA 163977
 from abc import ABCMeta, abstractmethod
+from externAPI import ExternSMS
 
 # Classe base de notificação
 class Notification(metaclass=ABCMeta):
 	@abstractmethod
 	def send(self, msg: str) -> None:
 		...
+
+class ExternSMSNotificationAdapter(Notification):
+	obj = ExternSMS()
+
+	def send(self, msg: str) -> None:
+		self.obj.send_message(msg)
 
 class SMSNotification(Notification):
 	def send(self, msg: str) -> None:
@@ -30,6 +37,8 @@ class NotificationFactory:
 				return EmailNotification()
 			case "PUSH":
 				return PushNotification()
+			case "EXTERNSMS":
+				return ExternSMSNotificationAdapter()
 			case _:
 				print(f"Invalid message type")
 
@@ -55,6 +64,9 @@ if __name__ == "__main__":
 	factory = NotificationFactory()
 	email = factory.new_notification("EMAIL")
 	email.send("algo")
+
+	extern_sms = ExternSMSNotificationAdapter()
+	extern_sms.send("Mensagem do adaptador")
 
 	sms = factory.new_notification("SMS")
 	sms.send("mensagem de sms")
