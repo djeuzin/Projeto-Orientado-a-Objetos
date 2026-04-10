@@ -4,7 +4,7 @@ factory = NotificationFactory()
 
 def test_sms_obj():
 	a = factory.new_notification("SMS")
-	assert(type(a) == SMSNotification)
+	assert(type(a) == ProxySMSNotification)
 
 def test_email_obj():
 	a = factory.new_notification("EMAIL")
@@ -27,3 +27,11 @@ def test_factory():
 def test_adapter():
 	a = factory.new_notification("EXTERNSMS")
 	assert(type(a) == ExternSMSNotificationAdapter)
+
+def test_sms_logger():
+	a = factory.new_notification("SMS")
+	a.send("Mensagem 1")
+	a.send("Mensagem 2")
+
+	sms_logs = SMSLogger()
+	assert(len(sms_logs.logs) == 2)
